@@ -1,0 +1,27 @@
+{
+  "key": "filosofia",
+  "icon": "💭",
+  "label": "Filosofía y reflexión",
+  "texts": [
+    {
+      "id": "filosofia-1",
+      "title": "¿Qué es la felicidad?",
+      "text": "La felicidad ha sido definida de formas muy distintas a lo largo de la historia. Para algunos filósofos antiguos, consistía en evitar el dolor y buscar la tranquilidad del espíritu. Para otros, era inseparable de la virtud y el cumplimiento del deber. Quizás no exista una única respuesta, sino tantas como personas intentan encontrarla."
+    },
+    {
+      "id": "filosofia-2",
+      "title": "La paradoja de la libertad",
+      "text": "La libertad plantea una paradoja difícil de resolver: cuantas más opciones tenemos, más difícil se vuelve decidir. Algunos pensadores sostienen que el exceso de posibilidades genera ansiedad en lugar de plenitud. Otros defienden que solo eligiendo, incluso equivocándonos, construimos quiénes somos. La libertad, entonces, no siempre se siente como liberación."
+    },
+    {
+      "id": "filosofia-3",
+      "title": "La verdad",
+      "text": "La verdad no siempre es fácil de definir, incluso cuando creemos tenerla clara. Lo que consideramos cierto depende, en buena parte, de la información y la perspectiva que tenemos disponible. Reconocer los límites de nuestro propio conocimiento es, quizás, el primer paso hacia una comprensión más honesta del mundo. La duda, bien entendida, no es debilidad sino método."
+    },
+    {
+      "id": "filosofia-4",
+      "title": "La curiosidad",
+      "text": "La curiosidad ha sido el motor de buena parte del avance humano, desde la ciencia hasta el arte. Preguntarse por qué las cosas son como son suele incomodar a quienes prefieren certezas. Sin embargo, es precisamente esa incomodidad la que empuja a explorar lo desconocido. Perder la curiosidad, más que envejecer, es dejar de crecer."
+    }
+  ]
+}

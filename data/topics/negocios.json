@@ -1,0 +1,27 @@
+{
+  "key": "negocios",
+  "icon": "💼",
+  "label": "Negocios",
+  "texts": [
+    {
+      "id": "negocios-1",
+      "title": "De la idea al plan",
+      "text": "Todo emprendimiento comienza con una idea, pero pocas veces sobrevive sin un plan que la respalde. Antes de lanzar un producto al mercado, es fundamental entender a quién va dirigido y qué problema resuelve realmente. Muchos negocios fracasan no por falta de calidad, sino por no encontrar suficientes clientes dispuestos a pagar por ellos. Validar la idea antes de invertir suele ahorrar tiempo y dinero."
+    },
+    {
+      "id": "negocios-2",
+      "title": "El flujo de caja",
+      "text": "El flujo de caja es, para muchas pequeñas empresas, más importante incluso que las ganancias reportadas en el papel. Un negocio puede ser rentable y aun así quebrar por falta de liquidez inmediata. Por eso, llevar un control detallado de ingresos y gastos mensuales resulta indispensable desde el primer día. Los errores de gestión financiera suelen aparecer mucho antes de lo que se piensa."
+    },
+    {
+      "id": "negocios-3",
+      "title": "La reputación de una marca",
+      "text": "La reputación de una marca se construye durante años, pero puede dañarse en cuestión de horas gracias a las redes sociales. Un solo mal manejo de una queja pública puede afectar la percepción de miles de clientes potenciales. Por eso, muchas empresas invierten cada vez más en atención al cliente y gestión de crisis. Prevenir, en este terreno, suele ser mucho más barato que reparar."
+    },
+    {
+      "id": "negocios-4",
+      "title": "Startups e incertidumbre",
+      "text": "Las startups suelen operar bajo mucha incertidumbre, ajustando su modelo de negocio conforme reciben información del mercado real. A diferencia de las empresas tradicionales, priorizan la velocidad de aprendizaje sobre la perfección inicial. Fallar rápido y corregir el rumbo suele ser más valioso que tardar años en lanzar un producto perfecto. Esa mentalidad de adaptación constante define buena parte de su cultura."
+    }
+  ]
+}

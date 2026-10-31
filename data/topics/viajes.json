@@ -1,0 +1,32 @@
+{
+  "key": "viajes",
+  "icon": "✈️",
+  "label": "Viajes y lugares",
+  "texts": [
+    {
+      "id": "viajes-1",
+      "title": "Kioto",
+      "text": "Kioto conserva templos y jardines que parecen detenidos en el tiempo, incluso rodeados por una ciudad moderna. Caminar por sus calles empedradas en otoño, cuando las hojas cambian de color, es una experiencia que muchos viajeros describen como inolvidable. Los santuarios sintoístas conviven con cafeterías y tiendas de diseño contemporáneo. Esa mezcla de tradición y modernidad define el carácter único de la ciudad."
+    },
+    {
+      "id": "viajes-2",
+      "title": "La Patagonia",
+      "text": "La Patagonia, compartida entre Argentina y Chile, combina glaciares, montañas y estepas en un paisaje de extremos. Caminar cerca del glaciar Perito Moreno permite escuchar el estruendo del hielo al desprenderse. Las distancias son enormes y el clima cambia sin previo aviso. Quienes la visitan suelen describirla como un lugar que hace sentir pequeño frente a la naturaleza."
+    },
+    {
+      "id": "viajes-3",
+      "title": "Islas Galápagos",
+      "text": "Las islas Galápagos son un laboratorio natural donde conviven especies que no existen en ningún otro lugar del mundo. Las tortugas gigantes y las iguanas marinas parecen no temerle a la presencia humana. Charles Darwin encontró aquí las claves para su teoría de la evolución. Hoy, un estricto control turístico busca preservar este frágil equilibrio."
+    },
+    {
+      "id": "viajes-4",
+      "title": "Islandia",
+      "text": "Islandia combina volcanes, glaciares y aguas termales en un territorio relativamente pequeño. Sus paisajes cambian drásticamente en pocos kilómetros, desde campos de lava negra hasta cascadas heladas. La energía geotérmica calienta gran parte de sus hogares, aprovechando la actividad volcánica bajo la isla. Muchos viajeros la eligen para perseguir las auroras boreales durante el invierno."
+    },
+    {
+      "id": "viajes-5",
+      "title": "El Transiberiano",
+      "text": "El Transiberiano conecta Moscú con el extremo oriente de Rusia en un recorrido de más de nueve mil kilómetros. El viaje completo puede tomar una semana, atravesando bosques, estepas y ciudades que cambian de huso horario constantemente. Para muchos pasajeros, el tren se convierte en un espacio de convivencia entre desconocidos. El paisaje, monótono y vasto, invita a la introspección."
+    }
+  ]
+}

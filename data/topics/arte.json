@@ -1,0 +1,27 @@
+{
+  "key": "arte",
+  "icon": "🎨",
+  "label": "Arte y cultura",
+  "texts": [
+    {
+      "id": "arte-1",
+      "title": "Del grafiti al mercado del arte",
+      "text": "El grafiti, considerado durante décadas un acto de vandalismo, hoy ocupa un lugar reconocido dentro del arte contemporáneo. Artistas como Banksy han logrado que sus obras callejeras se vendan por millones de dólares en subastas. Esta transformación genera debate: ¿pierde su esencia el arte urbano al entrar al mercado formal? La calle y la galería, cada vez más, se entrelazan."
+    },
+    {
+      "id": "arte-2",
+      "title": "Los orígenes del jazz",
+      "text": "El jazz nació a comienzos del siglo veinte como una mezcla de tradiciones africanas y europeas en Estados Unidos. Su característica principal, la improvisación, convirtió cada interpretación en una experiencia única e irrepetible. Músicos como Louis Armstrong y Miles Davis marcaron distintas etapas de su evolución. Hoy sigue influyendo géneros musicales muy alejados de su origen."
+    },
+    {
+      "id": "arte-3",
+      "title": "El arte digital",
+      "text": "El arte digital ha abierto nuevas posibilidades creativas, desde ilustraciones hechas con software hasta obras generadas por inteligencia artificial. Esta evolución genera preguntas sobre la autoría y el valor del proceso creativo humano. Algunos artistas ven la tecnología como una herramienta más; otros, como una amenaza a su oficio. El debate sobre qué es realmente arte sigue vigente."
+    },
+    {
+      "id": "arte-4",
+      "title": "La fotografía",
+      "text": "La fotografía cambió por completo la forma en que documentamos el mundo, permitiendo capturar un instante exacto que antes solo podía describirse con palabras o pintarse de memoria. Desde sus inicios en blanco y negro hasta las cámaras digitales actuales, ha democratizado la posibilidad de crear imágenes. Hoy, casi cualquier persona con un teléfono puede ser fotógrafo. Sin embargo, capturar una imagen verdaderamente significativa sigue requiriendo mirada y sensibilidad."
+    }
+  ]
+}

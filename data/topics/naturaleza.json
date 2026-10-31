@@ -1,0 +1,32 @@
+{
+  "key": "naturaleza",
+  "icon": "🌿",
+  "label": "Naturaleza y animales",
+  "texts": [
+    {
+      "id": "naturaleza-1",
+      "title": "Las abejas y la polinización",
+      "text": "Las abejas son responsables de la polinización de gran parte de los alimentos que consumimos. Sin ellas, frutas, verduras y frutos secos serían mucho más escasos. En las últimas décadas, su población ha disminuido por el uso de pesticidas y la pérdida de hábitat. Proteger a estos insectos es, en el fondo, proteger nuestra propia alimentación."
+    },
+    {
+      "id": "naturaleza-2",
+      "title": "Bosques tropicales",
+      "text": "Los bosques tropicales albergan más de la mitad de las especies del planeta en apenas una pequeña fracción de su superficie. Cada árbol talado representa la pérdida potencial de organismos que ni siquiera hemos llegado a conocer. La deforestación avanza principalmente por la expansión agrícola y ganadera. Restaurar estos ecosistemas toma décadas, mientras destruirlos apenas unos días."
+    },
+    {
+      "id": "naturaleza-3",
+      "title": "El papel de los lobos",
+      "text": "Los lobos cumplen un papel clave en el equilibrio de los ecosistemas donde habitan. Al controlar las poblaciones de herbívoros, permiten que la vegetación se regenere de forma natural. Su reintroducción en algunos parques nacionales ha demostrado efectos positivos inesperados, incluso en el curso de los ríos. La naturaleza, cuando se le da espacio, encuentra su propio equilibrio."
+    },
+    {
+      "id": "naturaleza-4",
+      "title": "La red de los hongos",
+      "text": "Los hongos forman una de las redes de comunicación más antiguas de la naturaleza. Bajo tierra, conectan raíces de árboles distintos y permiten el intercambio de nutrientes entre ellos. Algunos científicos llaman a esta red la 'internet del bosque'. Gracias a ella, un árbol enfermo puede recibir ayuda de sus vecinos sin que lo veamos."
+    },
+    {
+      "id": "naturaleza-5",
+      "title": "El águila arpía",
+      "text": "El águila arpía es una de las aves rapaces más poderosas del mundo, capaz de cazar presas casi tan pesadas como ella misma. Habita en lo profundo de la selva tropical, donde su presencia indica un ecosistema saludable. La pérdida de bosque continuo amenaza su supervivencia, ya que necesita grandes territorios para cazar. Verla en libertad es cada vez más difícil."
+    }
+  ]
+}

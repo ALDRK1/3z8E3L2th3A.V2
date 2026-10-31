@@ -1,0 +1,27 @@
+{
+  "key": "vida",
+  "icon": "☕",
+  "label": "Vida cotidiana",
+  "texts": [
+    {
+      "id": "vida-1",
+      "title": "Mi mochila cada mañana",
+      "text": "Cada mañana, antes de salir de casa, reviso que no falte nada en mi mochila: las llaves, el teléfono, algo de dinero. Es un ritual pequeño, casi automático, pero que me da tranquilidad durante el resto del día. A veces me pregunto cuántas de nuestras rutinas hacemos sin siquiera notarlo. Quizás ahí está el secreto de sentirnos en control."
+    },
+    {
+      "id": "vida-2",
+      "title": "Cocinar para otros",
+      "text": "Cocinar para otras personas tiene un valor que va más allá de alimentar. Preparar una comida pensando en los gustos de alguien más es, de alguna forma, un gesto de cariño silencioso. No siempre se necesita una ocasión especial para hacerlo. A veces, un plato sencillo compartido en casa vale más que una cena elaborada en un restaurante."
+    },
+    {
+      "id": "vida-3",
+      "title": "Conversar por mensajes",
+      "text": "Las conversaciones por mensajes han reemplazado buena parte de las llamadas telefónicas de antes. Es más rápido escribir unas líneas que sostener una charla completa, pero también se pierde algo en el camino: el tono de voz, las pausas, la espontaneidad. Muchas personas valoran, cada vez más, encontrarse en persona o al menos escuchar la voz del otro. La tecnología facilita, pero no siempre reemplaza."
+    },
+    {
+      "id": "vida-4",
+      "title": "Dormir bien",
+      "text": "Dormir bien parece sencillo, pero para muchas personas se ha convertido en un desafío constante. Las pantallas antes de dormir, el estrés acumulado o simplemente los horarios irregulares afectan la calidad del descanso. Pequeños cambios, como apagar las luces más temprano, suelen tener un efecto mayor del que se espera. El sueño, después de todo, no es un lujo sino una necesidad básica."
+    }
+  ]
+}

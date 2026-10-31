@@ -1,0 +1,27 @@
+{
+  "key": "ciencia",
+  "icon": "🔬",
+  "label": "Ciencia y tecnología",
+  "texts": [
+    {
+      "id": "ciencia-1",
+      "title": "Inteligencia artificial en el trabajo",
+      "text": "La inteligencia artificial ha comenzado a transformar la manera en que trabajamos. Programas capaces de escribir, traducir y analizar datos ya forman parte de la rutina de muchas empresas. Sin embargo, los expertos advierten que estas herramientas todavía cometen errores y necesitan supervisión humana. El reto no es solo técnico, sino también ético."
+    },
+    {
+      "id": "ciencia-2",
+      "title": "Edición genética y CRISPR",
+      "text": "La edición genética permite corregir mutaciones responsables de enfermedades hereditarias. Técnicas como CRISPR han abierto posibilidades que parecían ciencia ficción hace apenas una década. Los científicos avanzan con cautela, conscientes de las implicaciones éticas de modificar el ADN humano. El debate apenas comienza."
+    },
+    {
+      "id": "ciencia-3",
+      "title": "Computación cuántica",
+      "text": "La computación cuántica promete resolver problemas que las computadoras actuales tardarían siglos en calcular. Aunque todavía está en fase experimental, gigantes tecnológicos invierten miles de millones en su desarrollo. Los primeros usos prácticos podrían aparecer en la química y la criptografía. Por ahora, sigue siendo un territorio más teórico que cotidiano."
+    },
+    {
+      "id": "ciencia-4",
+      "title": "Realidad virtual más allá de los juegos",
+      "text": "La realidad virtual ya no se limita a los videojuegos. Se utiliza para entrenar cirujanos, simular entornos peligrosos y tratar fobias en terapia psicológica. Los cascos son cada vez más ligeros y accesibles para el público general. Algunos analistas creen que esta tecnología redefinirá la forma en que trabajamos y nos relacionamos."
+    }
+  ]
+}

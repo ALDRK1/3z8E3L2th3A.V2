@@ -1,0 +1,107 @@
+{
+  "key": "atencion",
+  "icon": "🛍️",
+  "label": "Atención al cliente",
+  "texts": [
+    {
+      "id": "atencion-1",
+      "title": "Buscando una chaqueta impermeable",
+      "text": "Vendedor: Buenos días, bienvenido a la tienda. ¿En qué puedo ayudarlo hoy?\nCliente: Hola, buenos días. Estoy buscando una chaqueta impermeable.\nVendedor: Claro, tenemos varios modelos por aquí. ¿Qué talla usa?\nCliente: Talla M, por favor.\nVendedor: Perfecto, esta le puede servir. Cuesta ochenta y nueve soles y viene en tres colores.\nCliente: Me gusta la azul, ¿la puedo probar?\nVendedor: Por supuesto, el probador está al fondo a la derecha."
+    },
+    {
+      "id": "atencion-2",
+      "title": "Precio de una lámpara",
+      "text": "Cliente: Disculpe, ¿cuánto cuesta esta lámpara?\nVendedor: Esa está en cincuenta y cinco soles, es la última que nos queda en exhibición.\nCliente: ¿Tienen otra en caja, sin usar?\nVendedor: Déjeme revisar en el almacén, un momento por favor.\nVendedor: Sí, tenemos una nueva en caja. Se la traigo enseguida.\nCliente: Perfecto, me la llevo."
+    },
+    {
+      "id": "atencion-3",
+      "title": "Licuadora que no enciende",
+      "text": "Cliente: Buenas tardes, compré esta licuadora la semana pasada y ya no enciende.\nVendedor: Lamento el inconveniente, ¿tiene el comprobante de compra?\nCliente: Sí, aquí está.\nVendedor: Perfecto, como está dentro del periodo de garantía, podemos cambiarla sin costo.\nCliente: Muchas gracias, no esperaba que fuera tan rápido.\nVendedor: Para eso está la garantía, un momento y le entrego la nueva."
+    },
+    {
+      "id": "atencion-4",
+      "title": "Descuento en un televisor",
+      "text": "Cliente: Hola, ¿este televisor tiene descuento?\nVendedor: Sí, tiene un quince por ciento por el aniversario de la tienda.\nCliente: ¿Y si pago en efectivo, hay algún descuento adicional?\nVendedor: Puedo ofrecerle cinco por ciento más si paga de contado.\nCliente: Me parece bien, así lo llevo.\nVendedor: Excelente decisión, permítame preparar la boleta."
+    },
+    {
+      "id": "atencion-5",
+      "title": "Camisa en talla L",
+      "text": "Vendedor: Buenas, ¿ya lo atendieron?\nCliente: No, todavía no. Quería preguntar si tienen esta camisa en talla L.\nVendedor: Voy a revisar el sistema... sí, tenemos una en el almacén, dame un momento para traerla.\nCliente: Gracias, espero aquí.\nVendedor: Aquí tiene, talla L, color blanco.\nCliente: Perfecto, me la llevo junto con esta corbata."
+    },
+    {
+      "id": "atencion-6",
+      "title": "Pagar en cuotas con tarjeta",
+      "text": "Cliente: ¿Puedo pagar con tarjeta de crédito en cuotas?\nVendedor: Claro, aceptamos hasta doce cuotas sin intereses con las principales tarjetas.\nCliente: ¿Y con esta tarjeta que tengo aquí funciona?\nVendedor: Sí, esa la aceptamos sin problema. ¿En cuántas cuotas desea pagar?\nCliente: En seis, por favor.\nVendedor: Perfecto, ya le proceso el pago."
+    },
+    {
+      "id": "atencion-7",
+      "title": "Regalo para mamá",
+      "text": "Cliente: Buenos días, estoy buscando un regalo para mi mamá, algo entre cien y ciento cincuenta soles.\nVendedor: Con gusto le ayudo. ¿Ella usa más accesorios, ropa o algo para el hogar?\nCliente: Le gustan mucho los accesorios.\nVendedor: Tenemos estos aretes y este bolso, ambos dentro de su presupuesto.\nCliente: Me gusta el bolso, ¿me lo pueden envolver para regalo?\nVendedor: Claro, sin costo adicional. Deme un momento."
+    },
+    {
+      "id": "atencion-8",
+      "title": "Otro color del mismo modelo",
+      "text": "Cliente: Disculpe, ¿este modelo también viene en color negro?\nVendedor: Este exacto no, pero tenemos uno muy similar en negro, un poco más caro.\nCliente: ¿Cuál es la diferencia de precio?\nVendedor: Son quince soles más, pero trae mejor calidad de tela.\nCliente: Está bien, prefiero el negro entonces.\nVendedor: Perfecto, se lo traigo en un momento."
+    },
+    {
+      "id": "atencion-9",
+      "title": "Devolución sin ticket",
+      "text": "Vendedor: Buenas tardes, ¿en qué puedo ayudarle?\nCliente: Quiero devolver este producto, no me gustó cómo quedó.\nVendedor: Entiendo, ¿tiene el ticket de compra?\nCliente: No lo encuentro, lo boté sin darme cuenta.\nVendedor: No se preocupe, con el número de su tarjeta puedo buscar la compra en el sistema.\nCliente: Ah, qué bueno, gracias por la ayuda."
+    },
+    {
+      "id": "atencion-10",
+      "title": "El perfume de la publicidad",
+      "text": "Cliente: ¿Este perfume es el mismo que el de la publicidad?\nVendedor: Sí, es exactamente el mismo, acaba de llegar esta semana.\nCliente: ¿Puedo probarlo antes de comprarlo?\nVendedor: Claro, aquí tiene un tester.\nCliente: Me gusta mucho el aroma, me llevo uno.\nVendedor: Excelente elección, se lo empaco enseguida."
+    },
+    {
+      "id": "atencion-11",
+      "title": "Oferta de la web en tienda",
+      "text": "Cliente: Hola, vi en su página web que tenían esta mochila en oferta.\nVendedor: Sí, la oferta también aplica en tienda física.\nCliente: Qué bien, ¿tienen en stock el color gris?\nVendedor: Voy a revisar el sistema... sí, nos queda una unidad.\nCliente: Perfecto, me la llevo antes de que se acabe.\nVendedor: Buena decisión, vamos a caja."
+    },
+    {
+      "id": "atencion-12",
+      "title": "Zapatos para correr",
+      "text": "Vendedor: Buenas, veo que está mirando los zapatos deportivos. ¿Busca algo en específico?\nCliente: Sí, para correr, pero no sé mucho de marcas.\nVendedor: Le recomiendo este modelo, tiene buena amortiguación y es de los más vendidos.\nCliente: ¿Cuánto cuesta?\nVendedor: Ciento veinte soles, y viene con seis meses de garantía.\nCliente: Me convence, ¿tiene en talla cuarenta y dos?"
+    },
+    {
+      "id": "atencion-13",
+      "title": "Cambio de un regalo repetido",
+      "text": "Cliente: Disculpe, compré esto hace dos días pero mi hija ya tiene uno igual, ¿lo puedo cambiar?\nVendedor: Sin ningún problema, siempre que esté sin usar y con la etiqueta puesta.\nCliente: Sí, aquí está todo completo.\nVendedor: Perfecto, ¿por cuál producto lo quiere cambiar?\nCliente: Por este otro, de un valor similar.\nVendedor: Listo, no hay diferencia de precio que pagar."
+    },
+    {
+      "id": "atencion-14",
+      "title": "Envíos a domicilio",
+      "text": "Cliente: ¿Hacen envíos a domicilio?\nVendedor: Sí, el envío dentro de la ciudad tiene un costo de diez soles y llega en veinticuatro horas.\nCliente: ¿Y si compro más de cien soles, tiene algún beneficio?\nVendedor: Claro, el envío sale gratis en compras mayores a ese monto.\nCliente: Perfecto, entonces voy a llevar un producto más para llegar al monto.\nVendedor: Con gusto le ayudo a elegir algo más."
+    },
+    {
+      "id": "atencion-15",
+      "title": "Cliente que vuelve",
+      "text": "Vendedor: Hola, bienvenida de nuevo. ¿Cómo le fue con la compra anterior?\nCliente: Muy bien, por eso volví. Busco algo parecido pero en otro color.\nVendedor: Qué bueno escuchar eso. Tenemos ese mismo modelo en verde y en rojo.\nCliente: Me llevo el verde.\nVendedor: Perfecto, gracias por confiar nuevamente en nosotros."
+    },
+    {
+      "id": "atencion-16",
+      "title": "Precio final e impuestos",
+      "text": "Cliente: Buenas, ¿este es el precio final o tiene impuestos aparte?\nVendedor: El precio que ve en la etiqueta ya incluye todos los impuestos.\nCliente: Ah, qué bien, pensé que iba a salir más caro en caja.\nVendedor: No se preocupe, no hay cargos ocultos aquí.\nCliente: Perfecto, entonces me lo llevo así como está.\nVendedor: Vamos a caja cuando guste."
+    },
+    {
+      "id": "atencion-17",
+      "title": "Entre dos modelos",
+      "text": "Cliente: Estoy entre estos dos modelos, no sé cuál elegir.\nVendedor: Este de aquí es más resistente, pero el otro es más liviano y económico.\nCliente: ¿Cuál se vende más?\nVendedor: El liviano, por el precio, pero para uso diario intenso recomiendo el resistente.\nCliente: Entonces prefiero el resistente, gracias por la recomendación.\nVendedor: Buena elección, se lo preparo."
+    },
+    {
+      "id": "atencion-18",
+      "title": "Guardar compras en caja",
+      "text": "Vendedor: Buenas tardes, veo que trae varios productos, ¿desea que se los lleve a caja mientras sigue viendo más?\nCliente: Sí, por favor, todavía quiero mirar algunas cosas más.\nVendedor: Perfecto, se los guardo aquí en el mostrador.\nCliente: Gracias, ya casi termino.\nVendedor: Sin apuro, cuando esté listo me avisa."
+    },
+    {
+      "id": "atencion-19",
+      "title": "Servicio técnico y garantía",
+      "text": "Cliente: Hola, ¿tienen servicio técnico si el producto falla después de la garantía?\nVendedor: Sí, contamos con servicio técnico propio, aunque después de la garantía tiene un costo.\nCliente: ¿Aproximadamente cuánto cuesta la revisión?\nVendedor: La revisión inicial cuesta veinte soles, y ese monto se descuenta si decide reparar aquí.\nCliente: Entendido, muchas gracias por la información.\nVendedor: Con gusto, cualquier duda que tenga puede volver."
+    },
+    {
+      "id": "atencion-20",
+      "title": "Programa de puntos",
+      "text": "Vendedor: Gracias por su compra, ¿le gustaría dejar su número para nuestro programa de puntos?\nCliente: Sí, claro, ¿cómo funciona?\nVendedor: Por cada compra acumula puntos que luego puede cambiar por descuentos.\nCliente: Suena bien, aquí tiene mi número.\nVendedor: Listo, ya quedó registrado. Que tenga un excelente día.\nCliente: Igualmente, muchas gracias por la atención."
+    }
+  ]
+}
