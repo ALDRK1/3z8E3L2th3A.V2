@@ -1,0 +1,47 @@
+{
+  "key": "conversaciones",
+  "icon": "💬",
+  "label": "Conversaciones cotidianas",
+  "texts": [
+    {
+      "id": "conversaciones-1",
+      "title": "Planes para el sábado",
+      "text": "Sofía: Oye, ¿estás libre el sábado?\nMateo: Creo que sí. ¿Qué tienes en mente?\nSofía: Pensaba ir a la playa por la mañana y luego almorzar algo rico.\nMateo: ¡Me encanta la idea! ¿A qué hora salimos?\nSofía: A las nueve, para evitar el tráfico.\nMateo: Perfecto. Yo llevo la música y tú las sombrillas.\nSofía: Trato hecho. Le voy a avisar a Lucía también."
+    },
+    {
+      "id": "conversaciones-2",
+      "title": "La cena en familia",
+      "text": "Mamá: Ya casi está lista la cena. ¿Pueden poner la mesa, por favor?\nDiego: Claro, mamá. ¿Cuántos platos necesitamos?\nMamá: Cinco, porque la abuela viene a comer con nosotros.\nPapá: Yo traigo los vasos y el agua.\nDiego: ¿Qué estás cocinando? Huele delicioso.\nMamá: Arroz con pollo, tu plato favorito.\nDiego: ¡Qué bien! Hoy tengo mucha hambre."
+    },
+    {
+      "id": "conversaciones-3",
+      "title": "Llamada a la abuela",
+      "text": "Ana: Hola, abuela, ¿cómo te sientes hoy?\nAbuela: Mucho mejor, mi niña. Ya no me duele la rodilla.\nAna: Me alegra escucharlo. ¿Tomaste tus medicinas?\nAbuela: Sí, ya las tomé con el desayuno.\nAna: Qué bueno. El domingo voy a visitarte con mi hermano.\nAbuela: Qué alegría. Prepararé tu postre favorito.\nAna: Gracias, abuela. Te quiero mucho."
+    },
+    {
+      "id": "conversaciones-4",
+      "title": "¿A quién le toca lavar los platos?",
+      "text": "Luis: ¿Quién lavó los platos ayer?\nCarla: Yo, y también saqué la basura.\nLuis: Entonces hoy me toca a mí.\nCarla: Exacto. Pero primero ayúdame a guardar las compras.\nLuis: Está bien. ¿Dónde pongo la leche?\nCarla: En el refrigerador, en el estante de arriba.\nLuis: Listo. Ahora sí, a lavar los platos."
+    },
+    {
+      "id": "conversaciones-5",
+      "title": "Cuentas y limpieza en casa",
+      "text": "Rosa: Oye, ya llegó el recibo de la luz.\nPablo: ¿Cuál es el total de este mes?\nRosa: Ochenta soles. Son cuarenta para cada uno.\nPablo: Está bien, te lo transfiero hoy mismo.\nRosa: Gracias. Otra cosa: ¿puedes limpiar el baño esta semana?\nPablo: Sí, lo hago mañana después del trabajo.\nRosa: Genial. Así la casa queda impecable."
+    },
+    {
+      "id": "conversaciones-6",
+      "title": "Café con un viejo amigo",
+      "text": "Javier: ¡Tanto tiempo! ¿Cómo has estado?\nMarta: Muy bien, aunque con mucho trabajo. ¿Y tú?\nJavier: Igual. Por suerte tengo vacaciones la próxima semana.\nMarta: Qué envidia. ¿Vas a viajar a algún lugar?\nJavier: Sí, a visitar a mis primos en el sur.\nMarta: Qué buen plan. Mándame fotos.\nJavier: Claro, te las envío todos los días."
+    },
+    {
+      "id": "conversaciones-7",
+      "title": "Fiesta sorpresa",
+      "text": "Valeria: Shh, habla bajito. Papá no debe enterarse.\nAndrés: Tranquila, todavía no llega del trabajo.\nValeria: ¿Compraste el pastel?\nAndrés: Sí, es de chocolate, como le gusta.\nValeria: Perfecto. Los invitados ya están aquí.\nAndrés: Entonces apaguemos las luces y escondámonos.\nValeria: ¡Escucho llaves en la puerta! Silencio, todos."
+    },
+    {
+      "id": "conversaciones-8",
+      "title": "Estoy en camino",
+      "text": "Tomás: ¿Aló? ¿Dónde estás? Ya empezó la película.\nElena: Perdón, hay muchísimo tráfico. Estoy en camino.\nTomás: ¿Cuánto falta para que llegues?\nElena: Unos diez minutos, como máximo.\nTomás: Está bien. Te guardo el asiento de al lado.\nElena: Gracias, eres el mejor. Compra las palomitas, por favor.\nTomás: Tranquila, ya las compré. Apúrate."
+    }
+  ]
+}
