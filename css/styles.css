@@ -1626,3 +1626,44 @@
   .tooltip.tip-vertical{ align-items: flex-start; border-radius: 14px; padding-top: 8px; padding-bottom: 8px; }
   .tooltip.tip-vertical .tooltip-save{ margin-top: 1px; }
   .tooltip.tip-below::after{ bottom: auto; top: -5px; }
+
+  /* ===== Copia de seguridad (exportar / importar progreso) ===== */
+  .sync-box{ margin-top: 16px; padding-top: 4px; border-top: 1px solid rgba(var(--accent-rgb),0.2); }
+  .sync-help{ margin: 0 0 10px; font-size: 11.5px; line-height: 1.5; color: var(--text-sub); }
+  .sync-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .sync-btn{
+    background: var(--bg-soft); color: var(--text-main);
+    border: 1px solid rgba(var(--accent-rgb),0.35); border-radius: 12px;
+    padding: 10px 8px; font-family: inherit; font-size: 12.5px; cursor: pointer;
+    width: auto; min-width: 0;
+  }
+  .sync-btn:hover{ border-color: var(--accent); color: var(--accent); }
+  .sync-paste{ margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+  .sync-paste[hidden]{ display: none !important; }
+  .sync-paste textarea{
+    width: 100%; box-sizing: border-box; resize: vertical;
+    background: var(--bg-soft); color: var(--text-main);
+    border: 1px solid rgba(var(--accent-rgb),0.35); border-radius: 12px;
+    padding: 10px; font-family: 'Share Tech Mono', monospace; font-size: 12px;
+  }
+  .sync-go{ background: var(--accent); color: #012028; border-color: var(--accent); font-weight: 600; }
+  .sync-go:hover{ color: #012028; filter: brightness(1.1); }
+  .sync-msg{ margin-top: 10px; min-height: 16px; font-size: 12px; line-height: 1.45; color: #3dffa0; }
+  .sync-msg.error{ color: var(--error); }
+
+  /* ===== Reloj: flechita y borde que palpita mientras cuenta ===== */
+  .time-caret{ font-size: 11px; line-height: 1; margin-left: -2px; color: var(--text-sub); transition: color .2s; }
+  .time-chip:hover .time-caret{ color: var(--accent); }
+  .time-chip.goal-met .time-caret{ color: #3dffa0; }
+  .time-chip.counting{ animation: time-chip-pulse 2.2s ease-in-out infinite; }
+  .time-chip.counting.goal-met{ animation-name: time-chip-pulse-green; }
+  @keyframes time-chip-pulse{
+    0%, 100%{ border-color: rgba(var(--accent-rgb),0.45); box-shadow: 0 0 5px rgba(var(--accent-rgb),0.2); }
+    50%{ border-color: var(--accent); box-shadow: 0 0 16px rgba(var(--accent-rgb),0.75); }
+  }
+  @keyframes time-chip-pulse-green{
+    0%, 100%{ border-color: rgba(61,255,160,0.5); box-shadow: 0 0 5px rgba(61,255,160,0.2); }
+    50%{ border-color: #3dffa0; box-shadow: 0 0 16px rgba(61,255,160,0.8); }
+  }
+  .time-chip.just-met{ animation: time-met-pulse 0.9s ease-in-out 3; }
+  @media (prefers-reduced-motion: reduce){ .time-chip.counting{ animation: none; } }

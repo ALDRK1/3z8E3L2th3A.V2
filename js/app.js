@@ -3054,7 +3054,7 @@
     d = d || new Date();
     return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
   }
-  function defaultTimeData(){ return { goalMin: 10, goalSet: false, hintShown: false, celebrated: '', days: {} }; }
+  function defaultTimeData(){ return { goalMin: 10, goalSet: false, goalUpdatedAt: 0, hintShown: false, celebrated: '', days: {} }; }
   function loadTime(){
     try{
       const d = JSON.parse(localStorage.getItem(TIME_KEY));
@@ -3066,7 +3066,7 @@
 
   let timeData = loadTime();
   let pendingSec = 0;
-  let lastActivity = Date.now();
+  let lastActivity = 0; // nada cuenta hasta que haya una acción real en la práctica
   let lastTick = Date.now();
 
   ['pointerdown', 'keydown', 'touchstart', 'mousemove', 'wheel', 'scroll'].forEach(ev =>
@@ -3155,7 +3155,9 @@
     if(dot) dot.classList.toggle('on', timeCounting);
     if(timeChip){
       timeChip.classList.toggle('goal-met', frac >= 1);
-      timeChip.title = 'Hoy: ' + fmtClock(t.sec) + ' de ' + t.goalMin + ' min — ' + (timeCounting ? 'contando' : 'en pausa') + ' (toca para ver tu constancia)';
+      timeChip.classList.toggle('counting', timeCounting);
+      timeChip.title = 'Hoy: ' + fmtClock(t.sec) + ' de ' + t.goalMin + ' min — ' +
+        (timeCounting ? 'contando' : 'en pausa (cuenta solo mientras practicas)') + '. Toca para ver tu constancia';
     }
     // si el panel está abierto, su reloj también corre en vivo
     const big = document.getElementById('timeBigClock');
@@ -3170,11 +3172,22 @@
     }
   }
 
+  // Práctica real = hay un texto abierto o un repaso en marcha, y ningún panel encima.
+  // Pantalla de inicio, lista de textos, resultados y paneles → en pausa.
+  function practiceActive(){
+    const panelIds = ['sampleModalOverlay', 'timeModalOverlay', 'exportModalOverlay', 'reviewModalOverlay'];
+    const panelOpen = (savedPanel && savedPanel.classList.contains('open')) ||
+      panelIds.some(id => { const el = document.getElementById(id); return !!el && !el.hidden; });
+    if(panelOpen) return false;
+    if(reviewOverlay && reviewOverlay.classList.contains('open')) return true; // "Recuerdo interactivo"
+    return !!(typeScreen && !typeScreen.hidden); // texto abierto o repaso de palabras guardadas
+  }
+
   function tickTime(){
     const now = Date.now();
     const dt = Math.min((now - lastTick) / 1000, 2);
     lastTick = now;
-    let active = document.visibilityState === 'visible';
+    let active = document.visibilityState === 'visible' && practiceActive();
     if(active){
       if(autoMode || (window.speechSynthesis && window.speechSynthesis.speaking)) lastActivity = now;
       active = (now - lastActivity) <= IDLE_MS;
@@ -3244,7 +3257,7 @@
             '<div class="time-bar-goal" style="bottom:' + Math.round(100 * d.g * 60 / scale) + '%"></div>' +
           '</div><span class="time-bar-day' + (d.today ? ' today' : '') + '">' + d.label + '</span></div>').join('') +
       '</div>' +
-      '<p class="time-note">🛡️ Día de gracia de este mes: <b>' + (streakInfo.graceUsedMonth ? 'usado' : 'disponible') + '</b>. Si fallas un día, tu racha no se rompe.<br>Solo cuenta el tiempo en que estás activo en la página.</p>';
+      '<p class="time-note">🛡️ Día de gracia de este mes: <b>' + (streakInfo.graceUsedMonth ? 'usado' : 'disponible') + '</b>. Si fallas un día, tu racha no se rompe.<br>El reloj cuenta solo mientras practicas (con un texto abierto o un repaso en marcha) y haces algo cada minuto.</p>';
   }
 
   function setGoal(min){
@@ -3252,6 +3265,7 @@
     timeData = loadTime();
     timeData.goalMin = min;
     timeData.goalSet = true;
+    timeData.goalUpdatedAt = Date.now();
     const day = timeData.days[dayKey()];
     if(day) day.g = min;
     saveTime(timeData);
@@ -3291,6 +3305,188 @@
     if(document.visibilityState === 'hidden') flushTime(); else lastTick = Date.now();
   });
   window.addEventListener('pagehide', flushTime);
+
+  // ===================== Copia de seguridad: exportar / importar progreso =====================
+  // Manual y sin cuentas: se genera un archivo (o un texto) con el progreso y en el
+  // otro dispositivo se importa. Al importar se COMBINA con lo que ya hay:
+  //  · palabras guardadas: se suman las que falten (no se borra ninguna)
+  //  · textos: se suman los "finalizados" y los ✓ de entendido
+  //  · tiempo: de cada día queda el valor mayor (así importar dos veces no duplica minutos)
+  //  · meta diaria: queda la que se cambió más recientemente
+  // No se copian preferencias propias de cada aparato (voz, velocidad, efectos).
+  const SYNC_VERSION = 1;
+  const syncMsg = document.getElementById('syncMsg');
+  const syncPasteBox = document.getElementById('syncPasteBox');
+  const syncPasteArea = document.getElementById('syncPasteArea');
+  const syncFileInput = document.getElementById('syncFileInput');
+
+  function setSyncMsg(text, isError){
+    if(!syncMsg) return;
+    syncMsg.textContent = text || '';
+    syncMsg.classList.toggle('error', !!isError);
+  }
+
+  function buildProgressSnapshot(){
+    flushTime();
+    return {
+      app: 'zeltha',
+      version: SYNC_VERSION,
+      exportedAt: new Date().toISOString(),
+      savedWords: allSavedWords,
+      textProgress: textProgress,
+      time: {
+        goalMin: timeData.goalMin,
+        goalSet: timeData.goalSet,
+        goalUpdatedAt: timeData.goalUpdatedAt || 0,
+        celebrated: timeData.celebrated,
+        days: timeData.days
+      }
+    };
+  }
+
+  function mergeProgress(snap){
+    const sum = { words: 0, texts: 0, days: 0, goal: false };
+
+    // --- palabras guardadas ---
+    (Array.isArray(snap.savedWords) ? snap.savedWords : []).forEach(sw => {
+      if(!sw || typeof sw.key !== 'string' || typeof sw.word !== 'string' || !sw.key) return;
+      const lang = (typeof sw.lang === 'string' && sw.lang) ? sw.lang : 'en';
+      const mine = allSavedWords.find(x => x.key === sw.key && x.lang === lang);
+      if(mine){
+        if(!mine.translation && sw.translation) mine.translation = String(sw.translation).slice(0, 300);
+        return;
+      }
+      allSavedWords.push({
+        key: sw.key.slice(0, 100),
+        word: sw.word.slice(0, 100),
+        translation: String(sw.translation || '').slice(0, 300),
+        lang: lang,
+        savedAt: typeof sw.savedAt === 'string' ? sw.savedAt : new Date().toISOString()
+      });
+      sum.words++;
+    });
+    persistSavedWords();
+    renderSavedWordsPanel();
+    updateReviewSavedBtn();
+
+    // --- progreso por texto ---
+    const tp = snap.textProgress;
+    if(tp && typeof tp === 'object'){
+      Object.keys(tp).forEach(id => {
+        if(!TEXT_ITEM_BY_ID[id] || !tp[id] || typeof tp[id] !== 'object') return;
+        Object.keys(tp[id]).forEach(lang => {
+          const src = tp[id][lang] || {};
+          const cur = (textProgress[id] && textProgress[id][lang]) || {};
+          const opened = !!(cur.opened || src.opened);
+          const mastered = !!(cur.mastered || src.mastered);
+          if(opened === !!cur.opened && mastered === !!cur.mastered) return;
+          const out = {};
+          if(opened) out.opened = true;
+          if(mastered) out.mastered = true;
+          textProgress[id] = textProgress[id] || {};
+          textProgress[id][lang] = out;
+          sum.texts++;
+        });
+      });
+      try{ localStorage.setItem(TEXT_PROGRESS_KEY, JSON.stringify(textProgress)); }catch(e){ /* ignore */ }
+    }
+
+    // --- tiempo y meta ---
+    const t = snap.time;
+    if(t && typeof t === 'object'){
+      flushTime();
+      const mine = loadTime();
+      const days = (t.days && typeof t.days === 'object') ? t.days : {};
+      Object.keys(days).forEach(k => {
+        const d = days[k];
+        if(!/^\d{4}-\d{2}-\d{2}$/.test(k) || !d || typeof d.s !== 'number' || !isFinite(d.s) || d.s < 0) return;
+        const g = (typeof d.g === 'number' && d.g >= 1 && d.g <= 600) ? d.g : mine.goalMin;
+        const cur = mine.days[k];
+        if(!cur || d.s > cur.s){
+          mine.days[k] = { s: Math.round(d.s * 10) / 10, g: g };
+          sum.days++;
+        }
+      });
+      if(typeof t.goalMin === 'number' && t.goalMin >= 1 && t.goalMin <= 600 && (t.goalUpdatedAt || 0) > (mine.goalUpdatedAt || 0)){
+        mine.goalMin = t.goalMin;
+        mine.goalSet = !!t.goalSet;
+        mine.goalUpdatedAt = t.goalUpdatedAt;
+        const today = mine.days[dayKey()];
+        if(today) today.g = mine.goalMin;
+        sum.goal = true;
+      }
+      if(typeof t.celebrated === 'string' && t.celebrated > (mine.celebrated || '')) mine.celebrated = t.celebrated;
+      timeData = mine;
+      saveTime(mine);
+      updateTimeChip();
+      renderTimePanel();
+    }
+    return sum;
+  }
+
+  function importProgressText(text){
+    let snap = null;
+    try{ snap = JSON.parse(String(text).trim()); }catch(e){ /* se avisa abajo */ }
+    if(!snap || typeof snap !== 'object' || snap.app !== 'zeltha'){
+      setSyncMsg('Eso no parece un progreso de Zeltha. Usa un archivo exportado desde la app, o pega el texto completo.', true);
+      return;
+    }
+    if(typeof snap.version === 'number' && snap.version > SYNC_VERSION){
+      setSyncMsg('Ese archivo viene de una versión más nueva de Zeltha. Actualiza la página (Ctrl+Shift+R) e inténtalo de nuevo.', true);
+      return;
+    }
+    const sum = mergeProgress(snap);
+    const parts = [];
+    if(sum.words) parts.push(sum.words + (sum.words === 1 ? ' palabra nueva' : ' palabras nuevas'));
+    if(sum.texts) parts.push(sum.texts + (sum.texts === 1 ? ' avance de texto' : ' avances de texto'));
+    if(sum.days) parts.push(sum.days + (sum.days === 1 ? ' día de tiempo' : ' días de tiempo'));
+    if(sum.goal) parts.push('meta diaria actualizada');
+    setSyncMsg(parts.length ? 'Importado ✓ ' + parts.join(' · ') : 'Importado ✓ Ya tenías todo, no había nada nuevo.', false);
+  }
+
+  const syncExportBtn = document.getElementById('syncExportBtn');
+  const syncImportBtn = document.getElementById('syncImportBtn');
+  const syncCopyBtn = document.getElementById('syncCopyBtn');
+  const syncPasteBtn = document.getElementById('syncPasteBtn');
+  const syncPasteGo = document.getElementById('syncPasteGo');
+
+  if(syncExportBtn) syncExportBtn.addEventListener('click', async () => {
+    const json = JSON.stringify(buildProgressSnapshot(), null, 2);
+    await shareOrDownload(json, 'zeltha-progreso-' + dayKey() + '.json', 'application/json', 'Progreso de Zeltha');
+    setSyncMsg('Archivo listo. Llévalo al otro dispositivo (WhatsApp, Drive, correo…) y ahí toca "Importar archivo".', false);
+  });
+  if(syncImportBtn && syncFileInput) syncImportBtn.addEventListener('click', () => { syncFileInput.value = ''; syncFileInput.click(); });
+  if(syncFileInput) syncFileInput.addEventListener('change', () => {
+    const f = syncFileInput.files && syncFileInput.files[0];
+    if(!f) return;
+    const reader = new FileReader();
+    reader.onload = () => importProgressText(reader.result);
+    reader.onerror = () => setSyncMsg('No se pudo leer el archivo.', true);
+    reader.readAsText(f);
+  });
+  if(syncCopyBtn) syncCopyBtn.addEventListener('click', async () => {
+    const json = JSON.stringify(buildProgressSnapshot());
+    try{
+      await navigator.clipboard.writeText(json);
+      setSyncMsg('Texto copiado. Pégalo en el otro dispositivo con "Pegar texto".', false);
+    }catch(e){
+      // si el navegador no deja copiar, se muestra el texto para copiarlo a mano
+      if(syncPasteBox) syncPasteBox.hidden = false;
+      if(syncPasteArea){ syncPasteArea.value = json; syncPasteArea.focus(); syncPasteArea.select(); }
+      setSyncMsg('Tu navegador no permitió copiar solo: el texto quedó seleccionado, cópialo a mano.', true);
+    }
+  });
+  if(syncPasteBtn) syncPasteBtn.addEventListener('click', () => {
+    if(!syncPasteBox) return;
+    syncPasteBox.hidden = !syncPasteBox.hidden;
+    if(!syncPasteBox.hidden && syncPasteArea){ syncPasteArea.value = ''; syncPasteArea.focus(); }
+  });
+  if(syncPasteGo) syncPasteGo.addEventListener('click', () => {
+    if(!syncPasteArea || !syncPasteArea.value.trim()){ setSyncMsg('Primero pega el texto copiado del otro dispositivo.', true); return; }
+    importProgressText(syncPasteArea.value);
+    if(syncPasteBox) syncPasteBox.hidden = true;
+    syncPasteArea.value = '';
+  });
 
   updateTimeChip();
   setInterval(tickTime, 1000);

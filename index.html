@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Zeltha">
-<link rel="stylesheet" href="css/styles.css?v=20261031-8">
+<link rel="stylesheet" href="css/styles.css?v=20261031-10">
 </head>
 <body>
 <div class="bg-fx" aria-hidden="true">
@@ -29,6 +29,7 @@
     <button type="button" class="saved-toggle time-chip" id="timeChip" title="Tu tiempo de práctica de hoy" aria-label="Tu tiempo de práctica de hoy">
       <span class="time-dot" id="timeDot" aria-hidden="true"></span>
       <span class="time-clock" id="timeChipLabel">00:00:00</span>
+      <span class="time-caret" aria-hidden="true">▾</span>
     </button>
     <button type="button" class="saved-toggle sub-active" id="subtitlesToggleBtn" aria-pressed="true" title="Traducir página" aria-label="Traducir página">
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h9M9 5v3M13 8a12 12 0 0 1-6 7M6 12a13 13 0 0 0 7 4M13 20l4-9 4 9M14.5 17h5"/></svg>
@@ -249,10 +250,26 @@
       <button type="button" class="sample-modal-close" id="timeModalClose" aria-label="Cerrar">✕</button>
     </div>
     <div id="timeModalBody"></div>
+    <div class="sync-box" id="syncBox">
+      <div class="time-section-label">Copia de seguridad · otro dispositivo</div>
+      <p class="sync-help">Pasa tu progreso (palabras guardadas, textos, tiempo y meta) de un dispositivo a otro. Al importar se combina con lo que ya tengas: no se borra nada.</p>
+      <div class="sync-row">
+        <button type="button" class="sync-btn" id="syncExportBtn">Exportar archivo</button>
+        <button type="button" class="sync-btn" id="syncImportBtn">Importar archivo</button>
+        <button type="button" class="sync-btn" id="syncCopyBtn">Copiar texto</button>
+        <button type="button" class="sync-btn" id="syncPasteBtn">Pegar texto</button>
+      </div>
+      <div class="sync-paste" id="syncPasteBox" hidden>
+        <textarea id="syncPasteArea" rows="4" placeholder="Pega aquí el progreso que copiaste en el otro dispositivo" spellcheck="false"></textarea>
+        <button type="button" class="sync-btn sync-go" id="syncPasteGo">Importar este texto</button>
+      </div>
+      <input type="file" id="syncFileInput" accept=".json,application/json,text/plain" hidden>
+      <div class="sync-msg" id="syncMsg" role="status"></div>
+    </div>
   </div>
 </div>
 <div class="z-toast" id="zToast" role="status" aria-live="polite"></div>
 
-<script src="js/loader.js?v=20261031-8"></script>
+<script src="js/loader.js?v=20261031-10"></script>
 </body>
 </html>
