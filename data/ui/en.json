@@ -16,7 +16,7 @@
   "wordUnitLabel": "word",
   "wpmLabel": "wpm",
   "typeMsg": "The Spanish meaning of each word is looked up automatically.",
-  "restartBtn": "Restart",
+  "analyzeBtn": "Analyze",
   "autoBtn": "Auto",
   "autoSpeedTag": "Speed",
   "resultTitle": "// Analysis complete",

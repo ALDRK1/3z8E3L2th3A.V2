@@ -2,7 +2,7 @@
 (function(){
   // Súbele el número a VERSION cada vez que actualices la página: así el navegador
   // descarga los archivos nuevos en vez de usar copias guardadas de antes.
-  const VERSION = '20261031-10';
+  const VERSION = '20261031-16';
   const get = p => fetch(p + '?v=' + VERSION).then(r => {
     if(!r.ok) throw new Error(p + ' → ' + r.status);
     return r.json();

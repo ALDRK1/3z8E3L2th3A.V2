@@ -16,7 +16,7 @@
   "wordUnitLabel": "字",
   "wpmLabel": "字/分",
   "typeMsg": "系统会自动查找每个字的西班牙语意思和拼音。",
-  "restartBtn": "重新开始",
+  "analyzeBtn": "分析",
   "autoBtn": "自动",
   "autoSpeedTag": "速度",
   "resultTitle": "// 分析完成",

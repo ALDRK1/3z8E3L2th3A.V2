@@ -7,7 +7,7 @@
   const sourceText = document.getElementById('sourceText');
   const startBtn = document.getElementById('startBtn');
   const sampleBtn = document.getElementById('sampleBtn');
-  const restartBtn = document.getElementById('restartBtn');
+  const analyzeBtn = document.getElementById('analyzeBtn');
   const finishBtn = document.getElementById('finishBtn');
   const tryAgainBtn = document.getElementById('tryAgainBtn');
   const autoBtn = document.getElementById('autoBtn');
@@ -207,7 +207,7 @@
   const ES_SUBTITLES_MAP = {
     startBtn: 'iniciar',
     sampleBtn: 'texto de ejemplo',
-    restartBtn: 'reiniciar',
+    analyzeBtn: 'comprensión',
     finishBtn: 'terminar',
     autoBtn: 'automático',
     tryAgainBtn: 'otro texto',
@@ -264,7 +264,7 @@
     if(wordUnitLabelEl) wordUnitLabelEl.textContent = t.wordUnitLabel;
     if(wpmLabelEl) wpmLabelEl.textContent = t.wpmLabel;
     // (sin mensaje de ayuda en esta zona)
-    setBtnLabelWithEsSub(restartBtn, t.restartBtn);
+    setBtnLabelWithEsSub(analyzeBtn, t.analyzeBtn);
     if(finishBtn) setBtnLabelWithEsSub(finishBtn, t.finishBtn);
     if(autoBtn) setBtnLabelWithEsSub(autoBtn, t.autoBtn);
     const autoSpeedTagEl = document.getElementById('autoSpeedTag');
@@ -1907,6 +1907,70 @@
     return { pct: Math.round(100 * (1 - unknown / keys.size)), mastered: false };
   }
 
+  // Comprensión de la sesión actual: palabras distintas del texto que NO guardaste como difíciles.
+  function computeComprehension(){
+    if(!words || !words.length) return null;
+    const keys = new Set();
+    words.forEach(w => { if(cleanWord(w)) keys.add(savedKey(w)); });
+    if(!keys.size) return null;
+    const saved = new Set(curSaved().map(sw => sw.key));
+    let unknown = 0;
+    keys.forEach(k => { if(saved.has(k)) unknown++; });
+    return { pct: Math.round(100 * (1 - unknown / keys.size)), total: keys.size, unknown: unknown };
+  }
+
+  // ---- Botón "Analizar comprensión" (antes "Reiniciar") ----
+  const analyzeOverlay = document.getElementById('analyzeModalOverlay');
+  const analyzeBody = document.getElementById('analyzeModalBody');
+  const analyzeClose = document.getElementById('analyzeModalClose');
+
+  function closeAnalyze(){ if(analyzeOverlay) analyzeOverlay.hidden = true; }
+
+  function openAnalyze(){
+    if(!analyzeOverlay || !analyzeBody) return;
+    if(isReviewSession){
+      showToast('El análisis es para textos, no para el repaso de palabras guardadas.', 3500);
+      return;
+    }
+    analyzeBody.innerHTML =
+      '<p class="an-text">¿Terminaste de leer el texto completo?</p>' +
+      '<p class="an-sub">El análisis se calcula con las palabras que guardaste como difíciles, así que es más exacto si leíste todo el texto.</p>' +
+      '<div class="an-actions">' +
+        '<button type="button" class="sync-btn sync-go" data-act="yes">Sí, analizar</button>' +
+        '<button type="button" class="sync-btn" data-act="no">Seguir leyendo</button>' +
+      '</div>';
+    analyzeOverlay.hidden = false;
+  }
+
+  function showAnalyzeResult(){
+    const r = computeComprehension();
+    if(!r){ closeAnalyze(); return; }
+    let registered = '';
+    if(sessionTextId){
+      setTextProg(sessionTextId, { opened: true });
+      registered = '<p class="an-sub">Se registró en tu lista de textos.</p>';
+    }
+    const cls = r.pct >= 80 ? 'pct-high' : (r.pct >= 50 ? 'pct-mid' : 'pct-low');
+    analyzeBody.innerHTML =
+      '<div class="an-pct ' + cls + '">' + r.pct + '%</div>' +
+      '<div class="an-label">de comprensión</div>' +
+      '<p class="an-sub">Guardaste ' + r.unknown + ' de ' + r.total + ' palabras distintas como difíciles.</p>' +
+      registered +
+      '<div class="an-actions an-one"><button type="button" class="sync-btn sync-go" data-act="close">Listo</button></div>';
+  }
+
+  if(analyzeBtn) analyzeBtn.addEventListener('click', openAnalyze);
+  if(analyzeClose) analyzeClose.addEventListener('click', closeAnalyze);
+  if(analyzeOverlay) analyzeOverlay.addEventListener('click', (e) => { if(e.target === analyzeOverlay) closeAnalyze(); });
+  if(analyzeBody) analyzeBody.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-act]');
+    if(!btn) return;
+    if(btn.dataset.act === 'yes') showAnalyzeResult(); else closeAnalyze();
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && analyzeOverlay && !analyzeOverlay.hidden) closeAnalyze();
+  });
+
   // ---- Vista 2 del modal: lista de textos ----
   const sampleModalTitle = document.getElementById('sampleModalTitle');
   const sampleModalBack = document.getElementById('sampleModalBack');
@@ -2074,13 +2138,17 @@
     }
   });
 
-  restartBtn.addEventListener('click', resetToSetup);
   if(finishBtn){
     finishBtn.addEventListener('click', () => {
       if(typeScreen && !typeScreen.hidden) finishSession();
     });
   }
-  tryAgainBtn.addEventListener('click', resetToSetup);
+  tryAgainBtn.addEventListener('click', () => {
+    resetToSetup();
+    // Texto en blanco: así se nota que se va a elegir uno nuevo (y el botón de ejemplo vuelve a su nombre).
+    sourceText.value = '';
+    sourceText.dispatchEvent(new Event('input'));
+  });
 
   function resetToSetup(){
     autoMode = false;
@@ -2603,7 +2671,7 @@
 
     currentIndex++;
     if(currentIndex >= words.length){
-      finishSession();
+      finishSession(true);
       return;
     }
     updateCurrentWordUI();
@@ -2618,7 +2686,7 @@
     liveWpmEl.textContent = wpm;
   }
 
-  function finishSession(){
+  function finishSession(completed){
     stopAuto();
     autoMode = false;
     if(autoBtn) autoBtn.classList.remove('auto-active');
@@ -2637,9 +2705,17 @@
     if(voiceSelectWrap) voiceSelectWrap.hidden = true;
     setQuickActionsAuto(true);
     updateReviewSavedBtn();
-    // Solo al finalizar el texto de la lista cuenta como leído (y muestra su %).
-    if(sessionTextId && !isReviewSession) setTextProg(sessionTextId, { opened: true });
-    onSessionFinished();
+    // "Terminar" ya no marca el texto como leído. Si se llegó al final del texto se analiza
+    // la comprensión sola; si no, el usuario decide con el botón "Analizar comprensión".
+    let prefix = '';
+    if(completed && !isReviewSession){
+      const r = computeComprehension();
+      if(r){
+        if(sessionTextId) setTextProg(sessionTextId, { opened: true });
+        prefix = 'Texto completo ✓ Comprensión: ' + r.pct + '%';
+      }
+    }
+    onSessionFinished(prefix);
   }
 
   wordsContainer.addEventListener('click', (e) => {
@@ -3156,6 +3232,8 @@
     if(timeChip){
       timeChip.classList.toggle('goal-met', frac >= 1);
       timeChip.classList.toggle('counting', timeCounting);
+      const tw = document.getElementById('timeWidget');
+      if(tw) tw.classList.toggle('goal-met', frac >= 1);
       timeChip.title = 'Hoy: ' + fmtClock(t.sec) + ' de ' + t.goalMin + ' min — ' +
         (timeCounting ? 'contando' : 'en pausa (cuenta solo mientras practicas)') + '. Toca para ver tu constancia';
     }
@@ -3175,7 +3253,7 @@
   // Práctica real = hay un texto abierto o un repaso en marcha, y ningún panel encima.
   // Pantalla de inicio, lista de textos, resultados y paneles → en pausa.
   function practiceActive(){
-    const panelIds = ['sampleModalOverlay', 'timeModalOverlay', 'exportModalOverlay', 'reviewModalOverlay'];
+    const panelIds = ['sampleModalOverlay', 'timeModalOverlay', 'exportModalOverlay', 'reviewModalOverlay', 'analyzeModalOverlay'];
     const panelOpen = (savedPanel && savedPanel.classList.contains('open')) ||
       panelIds.some(id => { const el = document.getElementById(id); return !!el && !el.hidden; });
     if(panelOpen) return false;
@@ -3283,12 +3361,14 @@
   function closeTimePanel(){ if(timeModalOverlay) timeModalOverlay.hidden = true; }
 
   // Al terminar un texto: aviso de cuánto falta para la meta (o nada si ya se cumplió).
-  function onSessionFinished(){
+  function onSessionFinished(prefix){
     flushTime();
     const day = timeData.days[dayKey()];
-    if(!day || day.s >= day.g * 60) return;
-    const left = Math.ceil((day.g * 60 - day.s) / 60);
-    showToast('Buen trabajo 👏 Te faltan ' + left + ' min para tu meta de hoy', 5000);
+    let goalMsg = '';
+    if(day && day.s < day.g * 60) goalMsg = 'Te faltan ' + Math.ceil((day.g * 60 - day.s) / 60) + ' min para tu meta de hoy';
+    if(prefix && goalMsg) showToast(prefix + ' · ' + goalMsg, 6500);
+    else if(prefix) showToast(prefix, 5000);
+    else if(goalMsg) showToast('Buen trabajo 👏 ' + goalMsg, 5000);
   }
 
   if(timeChip) timeChip.addEventListener('click', openTimePanel);
@@ -3487,6 +3567,154 @@
     if(syncPasteBox) syncPasteBox.hidden = true;
     syncPasteArea.value = '';
   });
+
+  // ===================== Monitor de ECG junto al reloj =====================
+  // Un monitor cardíaco de verdad: el trazo se dibuja con un barrido (el punto brillante
+  // avanza y borra lo viejo), cada latido tiene su onda P, complejo QRS y onda T, y:
+  //  · mientras practicas, el ritmo SUBE con lo que haces (teclas y toques) y baja al leer
+  //  · el borde del reloj late justo cuando el trazo da el pico R (están sincronizados)
+  //  · en pausa el monitor queda en línea plana; con la meta cumplida pasa a verde
+  const ecgCanvas = document.getElementById('ecgCanvas');
+  (function initEcg(){
+    if(!ecgCanvas) return;
+    const ctx = ecgCanvas.getContext('2d');
+    if(!ctx) return;
+    const W = 96, H = 38, N = W;                 // una columna de señal por píxel
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    ecgCanvas.width = W * dpr; ecgCanvas.height = H * dpr;
+    ctx.scale(dpr, dpr);
+    const reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const SPEED = 46;                            // píxeles por segundo (barrido)
+    const GAP = 9;                               // columnas borradas delante del cursor
+    const ys = new Float32Array(N);              // señal por columna (0 = línea base)
+    let cursor = 0, colAcc = 0, phase = 0, bpm = 54, recent = 0, last = 0, lastDraw = 0;
+    let rgb = '55,233,255', hex = '#37e9ff', colorAt = -1e9;
+
+    const gauss = (t, c, w) => Math.exp(-Math.pow((t - c) / w, 2));
+    function wave(t){                            // un latido: P, Q, R, S, T
+      return 0.16 * gauss(t, 0.13, 0.040)
+           - 0.14 * gauss(t, 0.255, 0.012)
+           + 1.00 * gauss(t, 0.30, 0.013)
+           - 0.26 * gauss(t, 0.345, 0.014)
+           + 0.30 * gauss(t, 0.56, 0.070);
+    }
+    function hexToRgb(h){
+      const m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(h.trim());
+      return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)].join(',') : '55,233,255';
+    }
+    function refreshColor(now, goalMet){
+      if(goalMet){ hex = '#3dffa0'; rgb = '61,255,160'; colorAt = -1e9; return; }
+      if(now - colorAt < 500) return;
+      colorAt = now;
+      const v = getComputedStyle(document.body).getPropertyValue('--accent');
+      if(v && v.trim()){ hex = v.trim(); rgb = hexToRgb(hex); }
+    }
+    function fireBeat(){
+      if(reduce || !timeChip) return;
+      timeChip.classList.remove('beat');
+      void timeChip.offsetWidth;                 // reinicia la animación del borde
+      timeChip.classList.add('beat');
+    }
+
+    // lo que haces acelera el corazón
+    ['keydown', 'pointerdown', 'touchstart'].forEach(ev =>
+      window.addEventListener(ev, () => { recent += 1; }, { passive: true, capture: true }));
+
+    function draw(counting, now, full){
+      const goalMet = !!(timeChip && timeChip.classList.contains('goal-met'));
+      refreshColor(now, goalMet);
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = '#010b12';
+      ctx.fillRect(0, 0, W, H);
+      // cuadrícula de papel de ECG
+      ctx.strokeStyle = 'rgba(' + rgb + ',0.11)';
+      ctx.lineWidth = 1;
+      for(let x = 0; x <= W; x += 8){ ctx.beginPath(); ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, H); ctx.stroke(); }
+      for(let y = 4; y <= H; y += 8){ ctx.beginPath(); ctx.moveTo(0, y + 0.5); ctx.lineTo(W, y + 0.5); ctx.stroke(); }
+
+      const base = H * 0.64, amp = H * 0.50;
+      const yAt = j => base - ys[j] * amp;
+      const dim = counting ? 1 : 0.5;
+      ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = 1.7;
+
+      if(full){                                  // sin movimiento: se dibuja todo el trazo
+        ctx.strokeStyle = 'rgba(' + rgb + ',' + (0.9 * dim) + ')';
+        ctx.beginPath();
+        for(let j = 0; j < N; j++){ if(j === 0) ctx.moveTo(j, yAt(j)); else ctx.lineTo(j, yAt(j)); }
+        ctx.stroke();
+      }else{
+        // cola que se desvanece (lo más viejo, más tenue)
+        const span = N - GAP;
+        for(let age = span - 1; age >= 1; age--){
+          const j1 = (cursor - 1 - age + N) % N, j0 = j1 - 1;
+          if(j0 < 0) continue;                   // no unir el borde derecho con el izquierdo
+          const a = (Math.pow(1 - age / span, 1.3) * 0.85 + 0.08) * dim;
+          ctx.strokeStyle = 'rgba(' + rgb + ',' + a.toFixed(3) + ')';
+          ctx.beginPath(); ctx.moveTo(j0, yAt(j0)); ctx.lineTo(j1, yAt(j1)); ctx.stroke();
+        }
+        // cabeza brillante del trazo
+        ctx.save();
+        ctx.shadowColor = hex; ctx.shadowBlur = counting ? 9 : 4;
+        ctx.strokeStyle = 'rgba(' + rgb + ',' + (0.95 * dim) + ')';
+        ctx.beginPath();
+        let started = false;
+        for(let age = 20; age >= 0; age--){
+          const j = (cursor - 1 - age + N) % N;
+          // al cruzar el borde (la columna 0 es el inicio de un nuevo barrido) se corta el trazo:
+          // así no se une el final de la derecha con el inicio de la izquierda
+          if(!started || j === 0){ ctx.moveTo(j, yAt(j)); started = true; }
+          else ctx.lineTo(j, yAt(j));
+        }
+        ctx.stroke();
+        // punto guía
+        const hx = (cursor - 1 + N) % N;
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowBlur = counting ? 12 : 5;
+        ctx.beginPath(); ctx.arc(hx, yAt(hx), counting ? 2.2 : 1.6, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+      }
+      // ritmo en pantalla
+      ctx.font = '700 8px Orbitron, monospace';
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = 'rgba(' + rgb + ',' + (counting ? 0.9 : 0.5) + ')';
+      ctx.fillText('♥ ' + (counting ? Math.round(bpm) : '--'), 5, H - 4);
+    }
+
+    function frame(now){
+      requestAnimationFrame(frame);
+      if(document.visibilityState !== 'visible'){ last = 0; return; }
+      if(now - lastDraw < 28) return;            // ~35 cuadros/seg: suficiente y cuida la batería
+      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0.03;
+      last = now; lastDraw = now;
+      const counting = timeCounting;
+      recent *= Math.exp(-dt / 2);
+      const target = counting ? Math.min(84, 54 + (recent / 2) * 6) : 54;   // reposo 54 · máximo 84 lpm
+      bpm += (target - bpm) * Math.min(1, dt * 1.5);
+      colAcc += SPEED * dt;
+      const cols = Math.floor(colAcc); colAcc -= cols;
+      const dPhase = counting ? dt * bpm / 60 : 0;
+      for(let i = 1; i <= cols; i++){
+        const p0 = phase + dPhase * ((i - 1) / cols), p1 = phase + dPhase * (i / cols);
+        ys[cursor] = counting ? wave(((p1 % 1) + 1) % 1) : 0;
+        if(counting && Math.floor(p1 - 0.30) > Math.floor(p0 - 0.30)) fireBeat();   // pico R → late el reloj
+        cursor = (cursor + 1) % N;
+      }
+      phase = (phase + dPhase) % 1;
+      draw(counting, now, false);
+    }
+
+    if(reduce){
+      // sin animación: un trazo fijo que solo cambia de color/estado
+      const paint = () => {
+        for(let j = 0; j < N; j++) ys[j] = timeCounting ? wave(((j / 42) % 1)) : 0;
+        draw(timeCounting, performance.now(), true);
+      };
+      paint(); setInterval(paint, 1000);
+    }else{
+      requestAnimationFrame(frame);
+    }
+    ecgCanvas.addEventListener('click', openTimePanel);
+  })();
 
   updateTimeChip();
   setInterval(tickTime, 1000);
